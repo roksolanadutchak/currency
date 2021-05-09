@@ -1,4 +1,4 @@
-export class Exchange {
+export class Exchanges {
     constructor(
         public currency: string,
         public startDate: Date = new Date(),

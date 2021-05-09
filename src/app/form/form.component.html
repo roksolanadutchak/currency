@@ -1,20 +1,27 @@
-<form (ngSubmit)="onSubmit()" #exchangeForm="ngForm">
+<form  #exchangeForm="ngForm">
     <div class="form-group">
         <label for="currency">Currency</label>
-        <select class="form-control" id="currency" required [(ngModel)]="model.currency" name="currency">
+        <select class="form-control" id="currency" required [(ngModel)]="_exchanges.currency" name="currency">
             <option *ngFor="let currency of currencies" [value]="currency">{{currency}}</option>
         </select>
-        you choose {{model.currency}}
+        
     </div>
     <div class="form-group">
         <label for="startDate">Start Date</label>
-        <input type="date" [(ngModel)]="model.startDate" name="startDate" id="startDate" class="form-control">
-        TODO: remove this: {{model.startDate}}
+        <input type="date" [(ngModel)]="_exchanges.startDate" name="startDate" id="startDate" class="form-control">
+        
     </div>
     <div class="form-group">
         <label for="endDate">End Date</label>
-        <input type="date" [(ngModel)]="model.endDate" name="endDate" id="endDate" class="form-control">
-        TODO: remove this: {{model.endDate}}
+        <input type="date" [(ngModel)]="_exchanges.endDate" name="endDate" id="endDate" class="form-control">
+       
     </div>
-    <button type="button" (click)="newExchange()">Show Changing</button>
+    <button type="button" (click)="addExchange()">Show Changing</button>
+    <button type="button" (click)="printExchanges()">Get Exchanging</button>
+    <button type="button" (click)="showExchange()">Show Exchange</button>
 </form>
+<div *ngFor="let task of tasks">
+    {{ task | json }}
+    <p>{{task.rate}}</p>
+    <p>{{task.cc}}</p>
+</div>
