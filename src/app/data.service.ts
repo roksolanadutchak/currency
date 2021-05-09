@@ -15,6 +15,7 @@ export class DataService {
     return this.httpClient.get(`https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=${this._exchanges.currency}&date=${Number(this._exchanges.startDate.toString().replace(/-/gi, ''))}&json`)
   }
   private _items:IItem[] = [];
+  private dates: Number [] = []
  
     addItem(item: IItem) {
         this._items.push(item);
@@ -31,4 +32,29 @@ export class DataService {
     console.log(this._exchanges)
     return this._exchanges;
   }
+  makeNewDate(){
+    for (let i = this._exchanges.startDate.getTime(); i < this._exchanges.endDate.getTime(); i + 86400000 ){
+      this.dates.push(i)
+    }
+  }
+  showListOfDate(){
+    const startS = new Date(this._exchanges.startDate).getTime();
+    const endS = new Date(this._exchanges.endDate).getTime();
+    //console.log(end)
+    function* generateRange(end: number, start: number, step = 86400000) {
+      let x = start - step;
+      while(x <= end - step) yield x += step;
+    }
+
+    const gen5 = generateRange(endS, startS);
+    let x = gen5.next();
+
+    while (!x.done) {
+      console.log(x.value);
+      this.dates.push(x.value)
+      x = gen5.next();
+    } 
+    console.log(this.dates)
+  }
+  
 }

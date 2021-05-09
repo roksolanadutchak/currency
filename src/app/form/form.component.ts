@@ -42,6 +42,9 @@ export class FormComponent  {
  public printExchanges(){
    console.log(this._dataService.getExchanges());
  }
+ public showList(){
+   this._dataService.showListOfDate();
+ }
  public showExchange(){
   this._dataService.sendGetRequest().subscribe((data)=>{
     this.tasks = data;
