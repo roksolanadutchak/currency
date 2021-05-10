@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-//import ( forkJoin ) from 'rxjs';
 import {forkJoin} from 'rxjs';
 import { of } from 'rxjs';
 import {IItem} from './item';
 import { Exchanges } from './exchange';
-
+// import { Response } from './response';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,21 +13,15 @@ export class DataService {
   //resp: Observable<Object>;
   public dates: any [] = [];
   public links: string [] = [];
-  public request: any [] = []
+  public request: any [] = [];
+  public responses: any[] = [];
   constructor(
     private httpClient: HttpClient
   ) { }
   public sendGetRequest(): Observable<Object>{
     return this.httpClient.get(`https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=${this._exchanges.currency}&date=${Number(this._exchanges.startDate.toString().replace(/-/gi, ''))}&json`)
   }
-  // public mockHTTPRequest(url: any) {
-  //   return new Observable(`Response from ${url}`)
-  //     // .delay(Math.random() * 1000);
-  // }
-  // public observables = this.links.map((link: any) => this.mockHTTPRequest(link))
-  // public Observable.forkJoin(observables)
-  //   .subscribe((val: any) => console.log(val));
-
+ 
   private _items:IItem[] = [];
   
     addItem(item: IItem) {
@@ -81,19 +74,11 @@ export class DataService {
     console.log(this.links)
     this.request = this.links.map((link: string) => this.httpClient.get(link))
   }
-  // public mockHTTPRequest(url: any) : Observable<Object> {
-  //   return this.httpClient.get(url)
-  //     //  .delay(Math.random() * 1000);
-  // }
-  // public observables = this.links.map((link: any) => this.mockHTTPRequest(link))
+  
   // makeCall(){
-  //     forkJoin(this.observables)
-  //   .subscribe((val: any) => console.log(val));
-  //   console.log('I work')
-  // } 
-  makeCall(){
-    forkJoin([...this.request]).subscribe(result => {
-      console.log(result)
-    })
-  }
+  //   forkJoin([...this.request]).subscribe(result => {
+  //     this.responses = result
+  //     console.log(this.responses)
+  //   })
+  // }
 }

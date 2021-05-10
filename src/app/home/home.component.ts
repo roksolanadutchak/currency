@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service'
+import { forkJoin } from 'rxjs';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -7,17 +9,14 @@ import { DataService } from '../data.service'
 })
 export class HomeComponent {
   tasks: any = {}
-  constructor(private dataService: DataService) { 
-    
-  }
+  responses: any[] = []
+  constructor(private _dataService: DataService) { 
 
-  // ngOnInit() {
-  //   this.dataService.sendGetRequest().subscribe((data)=>{
-  //     this.tasks = data;
-  //     console.log(data)
-  //   })
-  // }
-  // displayTask(data){
-  //   this.tasks = data;
-  // }
+  }
+  makeCall(){
+      forkJoin([...this._dataService.request]).subscribe((result: any) => {
+        this.responses = result.map((i: any) => i[0])
+        console.log(result)
+      })
+    }
 }

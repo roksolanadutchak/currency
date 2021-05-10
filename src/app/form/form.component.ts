@@ -61,10 +61,5 @@ export class FormComponent  {
     console.log(data)
   })
  }
- public showListOfCurrency(){
-  // forkJoin(this._dataService.observables)
-  // .subscribe((val: any) => console.log(val));
-  // console.log('I work')
-  this._dataService.makeCall()
- }
+
 }

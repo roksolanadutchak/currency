@@ -1,6 +1,35 @@
 <p>home works!</p>
-<div *ngFor="let task of tasks">
-    {{ task | json }}
-    <p>{{task.rate}}</p>
-    <p>{{task.cc}}</p>
+ <button type="button" (click)="makeCall()">Fuck</button> 
+<table class="table table-dark">
+    <thead>
+    <tr> 
+        
+       <th scope="col">exchangedate</th>
+      <th scope="col">rate</th>
+      <th scope="col">cc</th>
+    </tr>
+    </thead>
+    <tbody >
+    <tr *ngFor="let response of responses">
+        
+       <td>
+        {{ response.exchangedate }}
+      </td>
+      <td>{{ response.rate }}</td>
+      <td>{{ response.cc }}</td>
+    </tr>
+    </tbody>
+  </table> 
+
+
+<div *ngFor="let response of responses">
+    <ul>
+        <li>
+            {{response.rate}}
+    </li>
+    <li>
+        {{response.cc}}
+    </li>
+    <li>{{response.exchangedate}}</li>
+</ul>
 </div>
