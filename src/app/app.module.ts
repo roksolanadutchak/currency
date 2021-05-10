@@ -9,21 +9,27 @@ import { FormComponent } from './form/form.component';
 import { CreateItemComponent } from './create-item/create-item.component';
 import { ViewItemsComponent } from './view-items/view-items.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgxEchartsModule } from 'ngx-echarts';
+import * as echarts from 'echarts';
+import { MyChartComponent } from './my-chart/my-chart.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FormComponent,
     CreateItemComponent,
-    ViewItemsComponent
+    ViewItemsComponent,
+    MyChartComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    NgxEchartsModule.forRoot({
+      echarts,
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
