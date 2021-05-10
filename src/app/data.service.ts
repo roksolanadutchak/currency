@@ -1,22 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+//import ( forkJoin ) from 'rxjs';
+import {forkJoin} from 'rxjs';
+import { of } from 'rxjs';
 import {IItem} from './item';
 import { Exchanges } from './exchange';
+
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   //resp: Observable<Object>;
+  public dates: any [] = [];
+  public links: string [] = [];
+  public request: any [] = []
   constructor(
     private httpClient: HttpClient
   ) { }
   public sendGetRequest(): Observable<Object>{
     return this.httpClient.get(`https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=${this._exchanges.currency}&date=${Number(this._exchanges.startDate.toString().replace(/-/gi, ''))}&json`)
   }
+  // public mockHTTPRequest(url: any) {
+  //   return new Observable(`Response from ${url}`)
+  //     // .delay(Math.random() * 1000);
+  // }
+  // public observables = this.links.map((link: any) => this.mockHTTPRequest(link))
+  // public Observable.forkJoin(observables)
+  //   .subscribe((val: any) => console.log(val));
+
   private _items:IItem[] = [];
-  private dates: Number [] = []
- 
+  
     addItem(item: IItem) {
         this._items.push(item);
     }
@@ -38,10 +52,17 @@ export class DataService {
     }
   }
   showListOfDate(){
+    function add(n: number){
+      let str = n.toString();
+      return (str.length < 2) ? `0${str}` : str;
+    }
     const startS = new Date(this._exchanges.startDate).getTime();
     const endS = new Date(this._exchanges.endDate).getTime();
     //console.log(end)
+    let dateLayer = []
+    let dates = []
     function* generateRange(end: number, start: number, step = 86400000) {
+      
       let x = start - step;
       while(x <= end - step) yield x += step;
     }
@@ -51,10 +72,28 @@ export class DataService {
 
     while (!x.done) {
       console.log(x.value);
-      this.dates.push(x.value)
+      dateLayer.push(new Date(x.value))
+      this.dates = dateLayer.map((item: any) => `${item.getFullYear()}${add(item.getMonth() + 1)}${add(item.getDate())}`)
       x = gen5.next();
     } 
     console.log(this.dates)
+    this.links = this.dates.map((data: string) => `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=${this._exchanges.currency}&date=${data}&json`)
+    console.log(this.links)
+    this.request = this.links.map((link: string) => this.httpClient.get(link))
   }
-  
+  // public mockHTTPRequest(url: any) : Observable<Object> {
+  //   return this.httpClient.get(url)
+  //     //  .delay(Math.random() * 1000);
+  // }
+  // public observables = this.links.map((link: any) => this.mockHTTPRequest(link))
+  // makeCall(){
+  //     forkJoin(this.observables)
+  //   .subscribe((val: any) => console.log(val));
+  //   console.log('I work')
+  // } 
+  makeCall(){
+    forkJoin([...this.request]).subscribe(result => {
+      console.log(result)
+    })
+  }
 }

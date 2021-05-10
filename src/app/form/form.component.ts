@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { DataService } from '../data.service';
 import { Exchanges } from '../exchange'
 @Component({
@@ -23,6 +24,7 @@ export class FormComponent  {
 
   // onSubmit() { this.submitted = true; }
   public _exchanges: Exchanges = {currency: '', startDate: new Date(), endDate: new Date()}
+  public listOfDate: Number [] = []
   constructor(private _dataService: DataService){}
   public get Exchanges(): Exchanges{
     return this._exchanges;
@@ -45,10 +47,24 @@ export class FormComponent  {
  public showList(){
    this._dataService.showListOfDate();
  }
+//  public createRequest(){
+//    for(let i = 0; i < this._dataService.dates.length; i++){
+//      forkJoin({
+//       this._dataService.sendGetRequest()
+//      })
+//    }
+//  }
  public showExchange(){
+  
   this._dataService.sendGetRequest().subscribe((data)=>{
     this.tasks = data;
     console.log(data)
   })
+ }
+ public showListOfCurrency(){
+  // forkJoin(this._dataService.observables)
+  // .subscribe((val: any) => console.log(val));
+  // console.log('I work')
+  this._dataService.makeCall()
  }
 }
