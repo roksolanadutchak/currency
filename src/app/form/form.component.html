@@ -16,14 +16,7 @@
         <input type="date" [(ngModel)]="_exchanges.endDate" name="endDate" id="endDate" class="form-control">
        
     </div>
-    <button type="button" (click)="addExchange()">Show Changing</button>
-    <button type="button" (click)="printExchanges()">Get Exchanging</button>
-    <button type="button" (click)="showExchange()">Show Exchange</button>
-    <button type="button" (click)="showList()">Show List</button>
+    <button type="button" class="btn-primary" (click)="showExchange()">Get Exchange</button>
+    
     
 </form>
-<div *ngFor="let task of tasks">
-    {{ task | json }}
-    <p>{{task.rate}}</p>
-    <p>{{task.cc}}</p>
-</div>

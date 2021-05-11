@@ -15,8 +15,7 @@ export class HomeComponent {
   }
   makeCall(){
       forkJoin([...this._dataService.request]).subscribe((result: any) => {
-        this.responses = result.map((i: any) => i[0])
-        console.log(result)
+        this.responses = result.map((i: any) => i[0]);
       })
     }
 }

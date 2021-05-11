@@ -9,20 +9,6 @@ import { Exchanges } from '../exchange'
 })
 export class FormComponent  {
   currencies = ["USD", "EUR", "CAD", "CZK", "GBP"];
-  tasks: any = {}
-  // model = new Exchange("USD")
-  // constructor() { }
-
-  // ngOnInit(): void {
-    
-  // }
-  // newExchange(){
-  //   this.model = new Exchange("USD")
-  //   console.log(this.model)
-  // }
-  // submitted = false;
-
-  // onSubmit() { this.submitted = true; }
   public _exchanges: Exchanges = {currency: '', startDate: new Date(), endDate: new Date()}
   public listOfDate: Number [] = []
   constructor(private _dataService: DataService){}
@@ -37,29 +23,12 @@ export class FormComponent  {
     };
     this._dataService.addExchange(currentExchange);
   }
-  public printItems(){
-    console.log('exchange in app');
-    console.log(this._dataService.getItems());
- }
- public printExchanges(){
-   console.log(this._dataService.getExchanges());
- }
+
  public showList(){
    this._dataService.showListOfDate();
  }
-//  public createRequest(){
-//    for(let i = 0; i < this._dataService.dates.length; i++){
-//      forkJoin({
-//       this._dataService.sendGetRequest()
-//      })
-//    }
-//  }
  public showExchange(){
-  
-  this._dataService.sendGetRequest().subscribe((data)=>{
-    this.tasks = data;
-    console.log(data)
-  })
- }
-
+  this.addExchange(),
+  this.showList()
+}
 }
