@@ -21,15 +21,4 @@
     </tbody>
   </table> 
 
-
-<div *ngFor="let response of responses">
-    <ul>
-        <li>
-            {{response.rate}}
-    </li>
-    <li>
-        {{response.cc}}
-    </li>
-    <li>{{response.exchangedate}}</li>
-</ul>
-</div>
+  <app-my-chart [dataResponse]="responses"></app-my-chart>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 @Component({
   selector: 'app-my-chart',
@@ -6,36 +6,49 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./my-chart.component.css']
 })
 export class MyChartComponent implements OnInit {
+  @Input() dataResponse? : any
   options: any;
   updateOptions: any;
-
+  responses: any[] = []
   private oneDay = 24 * 3600 * 1000;
-  private now: Date = new Date();
+  private dates: any[] = [];
+  private valueArr: any[] = []
+  //start is old now
+  private start: Date = new Date();
+  //private firstDate: any = this.dataResponse[0].exchangedate
   private value: number  = 0;
   private data: any[] = [];
   private timer: any;
-  constructor() { }
 
-  ngOnInit(): void {
-    // generate some random testing data:
+  constructor( ) { }
+  
+  showChart(){
+    let dataLayer = []
+     for (let data of this.dataResponse){
+      this.valueArr.push(data.rate);
+      dataLayer.push(data.exchangedate);
+     }
+     this.dates = dataLayer.map(item=> item.split('.').join(' '))
+    console.log('Hello World');
+    console.log(this.dates)
+    console.log(this.dataResponse)
+     console.log(this.valueArr)
     this.data = [];
-    this.now = new Date(1997, 9, 3);
-    this.value = Math.random() * 1000;
+    this.start = new Date(this.dates[0]);
+    //this.value = Math.random() * 1000;
 
     for (let i = 0; i < 1000; i++) {
       this.data.push(this.randomData());
     }
-
-    // initialize chart options:
     this.options = {
       title: {
-        text: 'Dynamic Data + Time Axis'
+        text: 'Currency Exchange'
       },
       tooltip: {
         trigger: 'axis',
         formatter: (params : any) => {
           params = params[0];
-          const date = new Date(params.name);
+          const date = new Date(this.dates[0]);
           return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
         },
         axisPointer: {
@@ -63,10 +76,8 @@ export class MyChartComponent implements OnInit {
         data: this.data
       }]
     };
-
-    // Mock dynamic data:
     this.timer = setInterval(() => {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 7; i++) {
         this.data.shift();
         this.data.push(this.randomData());
       }
@@ -79,18 +90,25 @@ export class MyChartComponent implements OnInit {
       };
     }, 1000);
   }
+  stop(){
+    clearInterval(this.timer)
+  }
+  ngOnInit(): void {
+  }
 
   ngOnDestroy() {
     clearInterval(this.timer);
   }
 
   randomData() {
-    this.now = new Date(this.now.getTime() + this.oneDay);
-    this.value = this.value + Math.random() * 21 - 10;
+    this.start= new Date(this.start.getTime() + this.oneDay);
+    for (let i = 0; i < this.valueArr.length; i++){
+      this.value = this.valueArr[i]
+    }
     return {
-      name: this.now.toString(),
+      name: this.start.toString(),
       value: [
-        [this.now.getFullYear(), this.now.getMonth() + 1, this.now.getDate()].join('/'),
+        [this.start.getFullYear(), this.start.getMonth() + 1, this.start.getDate()].join('/'),
         Math.round(this.value)
       ]
     };
