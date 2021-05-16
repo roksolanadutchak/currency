@@ -18,7 +18,7 @@ export class ChartComponent  {
       data: {
         labels: this.dataResponse.map((item : any) => item.exchangedate),
         datasets: [{
-          label: 'My First Dataset',
+          label: 'Curency exchange',
           data: this.dataResponse.map((item : any) => item.rate),
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
