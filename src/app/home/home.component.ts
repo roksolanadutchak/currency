@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  
   tasks: any = {}
   responses: any[] = []
   constructor(private _dataService: DataService) { 

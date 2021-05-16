@@ -7,25 +7,29 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { FormComponent } from './form/form.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxEchartsModule } from 'ngx-echarts';
-import * as echarts from 'echarts';
-import { MyChartComponent } from './my-chart/my-chart.component';
+import { ChartComponent } from './chart/chart.component';
+// import { NgxEchartsModule } from 'ngx-echarts';
+
+// import * as echarts from 'echarts';
+// import { MyChartComponent } from './my-chart/my-chart.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FormComponent,
-    MyChartComponent
+    ChartComponent
+    // MyChartComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    NgbModule,
-    NgxEchartsModule.forRoot({
-      echarts,
-    })
+    
+    NgbModule
+    // NgxEchartsModule.forRoot({
+    //   echarts,
+    // })
   ],
   providers: [],
   bootstrap: [AppComponent]
